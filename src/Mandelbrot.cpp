@@ -90,7 +90,7 @@ void Mandelbrot::updateImage(double zoom, double offsetX, double offsetY, sf::Im
     std::vector<std::thread> threads;
     for (int i = 0; i < IMAGE_HEIGHT; i += STEP) {
         threads.emplace_back(
-            &Mandelbrot::updateImageSlice, *this,
+            &Mandelbrot::updateImageSlice, this,
             zoom, offsetX, offsetY, std::ref(image), i, std::min(i + STEP, IMAGE_HEIGHT)
         );
     }
