@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13)
 project(Mandelbrot)
 set(EXECUTABLE_NAME "Mandelbrot")
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "/home/mbkkt/CLionProjects/Mandelbrot/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "./Mandelbrot/bin")
 
 set(CMAKE_CXX_FLAGS "-std=c++1z -Wall -Wextra -Werror -Ofast -pthread")
 
