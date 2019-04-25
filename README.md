@@ -2,7 +2,7 @@
 
 Simple mandelbrot viewer
 
-![Mandelbrot](./bin/Mandelbrot.jpg)
+![ ](https://raw.githubusercontent.com/MBkkt/Mandelbrot/master/bin/mandelbrot.jpg)
 
 | Button | Explain    |
 | :----- | ---------: |
