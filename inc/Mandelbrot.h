@@ -17,7 +17,7 @@ private:
 
     sf::Color getColor(int iterations) const;
 
-    void updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image & image, int minY, int maxY) const;
+    void updateImageSlice(sf::Image & image, double zoom, double offsetX, double offsetY, int minY, int maxY) const;
 
     int const WIDTH;
     int const HEIGHT;

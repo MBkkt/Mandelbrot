@@ -18,10 +18,10 @@ int Mandelbrot::mandelbrot(double startReal, double startImag) const {
     for (int counter = 0; counter < MAX; ++counter) {
         double r2 = zReal * zReal;
         double i2 = zImag * zImag;
-        if (r2 + i2 > 4.0) {
+        if (r2 + i2 > 4.) {
             return counter;
         }
-        zImag = 2.0 * zReal * zImag + startImag;
+        zImag = 2. * zReal * zImag + startImag;
         zReal = r2 - i2 + startReal;
     }
     return MAX;
@@ -72,15 +72,17 @@ sf::Color Mandelbrot::getColor(int iterations) const {
 }
 
 void
-Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image & image, int minY, int maxY) const {
-    double real = -(WIDTH / 2.0 * zoom) + offsetX;
-    double imagstart = minY * zoom - HEIGHT / 2.0 * zoom + offsetY;
-    for (int x = 0; x < WIDTH; ++x, real += zoom) {
+Mandelbrot::updateImageSlice(sf::Image & image, double zoom, double offsetX, double offsetY, int minY, int maxY) const {
+    double real = offsetX - WIDTH / 2. * zoom;
+    double imagstart = offsetY + minY * zoom - HEIGHT / 2. * zoom;
+    for (int x = 0; x < WIDTH; ++x) {
         double imag = imagstart;
-        for (int y = minY; y < maxY; ++y, imag += zoom) {
+        for (int y = minY; y < maxY; ++y) {
             int value = mandelbrot(real, imag);
             image.setPixel(x, y, colors[value]);
+            imag += zoom;
         }
+        real += zoom;
     }
 }
 
@@ -91,7 +93,7 @@ void Mandelbrot::updateImage(double zoom, double offsetX, double offsetY, sf::Im
     for (int i = 0; i < HEIGHT; i += STEP) {
         threads.emplace_back(
             &Mandelbrot::updateImageSlice, this,
-            zoom, offsetX, offsetY, std::ref(image), i, std::min(i + STEP, HEIGHT)
+            std::ref(image), zoom, offsetX, offsetY, i, std::min(i + STEP, HEIGHT)
         );
     }
     for (auto & t : threads) {

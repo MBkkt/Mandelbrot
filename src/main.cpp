@@ -1,12 +1,14 @@
 #include "Mandelbrot.h"
 
 int main() {
-    int const IMAGE_WIDTH = 1600;
-    int const IMAGE_HEIGHT = 800;
+    auto vm = sf::VideoMode::getDesktopMode();
+    int const IMAGE_WIDTH = vm.width - 400;
+    int const IMAGE_HEIGHT = vm.height - 200;
     Mandelbrot mb(IMAGE_WIDTH, IMAGE_HEIGHT);
 
     sf::RenderWindow window(sf::VideoMode(IMAGE_WIDTH, IMAGE_HEIGHT), "Mandelbrot");
     window.setFramerateLimit(0);
+    window.setPosition(sf::Vector2i(200, 100));
 
     sf::Image image;
     image.create(IMAGE_WIDTH, IMAGE_HEIGHT, sf::Color(0, 0, 0));
@@ -24,24 +26,24 @@ int main() {
             }
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-            zoom *= 0.98;
+            zoom *= 0.96;
             stateChanged = true;
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-            zoom /= 0.98;
+            zoom /= 0.96;
             stateChanged = true;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            offsetY -= 8 * zoom;
+            offsetY -= 10 * zoom;
             stateChanged = true;
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            offsetY += 8 * zoom;
+            offsetY += 10 * zoom;
             stateChanged = true;
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            offsetX -= 8 * zoom;
+            offsetX -= 10 * zoom;
             stateChanged = true;
         } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            offsetX += 8 * zoom;
+            offsetX += 10 * zoom;
             stateChanged = true;
         }
         if (stateChanged) {
