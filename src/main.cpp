@@ -1,16 +1,16 @@
 #include "Mandelbrot.h"
 
 int main() {
-    double offsetX = 0; // and move around
-    double offsetY = 0;
-    double zoom = 0.002; // allow the user to zoom in and out...
-    Mandelbrot mb(1600, 800);
+    int const IMAGE_WIDTH = 1600;
+    int const IMAGE_HEIGHT = 800;
+    Mandelbrot mb(IMAGE_WIDTH, IMAGE_HEIGHT);
 
     sf::RenderWindow window(sf::VideoMode(IMAGE_WIDTH, IMAGE_HEIGHT), "Mandelbrot");
     window.setFramerateLimit(0);
 
     sf::Image image;
-    image.create(mb.IMAGE_WIDTH, mb.IMAGE_HEIGHT, sf::Color(0, 0, 0));
+    image.create(IMAGE_WIDTH, IMAGE_HEIGHT, sf::Color(0, 0, 0));
+
     sf::Texture texture;
     sf::Sprite sprite;
     sf::Event event {};

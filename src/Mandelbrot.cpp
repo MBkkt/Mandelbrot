@@ -5,7 +5,7 @@
 
 
 Mandelbrot::Mandelbrot(size_t width, size_t height)
-    : IMAGE_WIDTH(width), IMAGE_HEIGHT(height) {
+    : WIDTH(width), HEIGHT(height) {
     for (int i = 0; i <= MAX; ++i) {
         colors[i] = getColor(i);
     }
@@ -73,9 +73,9 @@ sf::Color Mandelbrot::getColor(int iterations) const {
 
 void
 Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, sf::Image & image, int minY, int maxY) const {
-    double real = -(IMAGE_WIDTH / 2.0 * zoom) + offsetX;
-    double imagstart = minY * zoom - IMAGE_HEIGHT / 2.0 * zoom + offsetY;
-    for (int x = 0; x < IMAGE_WIDTH; ++x, real += zoom) {
+    double real = -(WIDTH / 2.0 * zoom) + offsetX;
+    double imagstart = minY * zoom - HEIGHT / 2.0 * zoom + offsetY;
+    for (int x = 0; x < WIDTH; ++x, real += zoom) {
         double imag = imagstart;
         for (int y = minY; y < maxY; ++y, imag += zoom) {
             int value = mandelbrot(real, imag);
@@ -86,12 +86,12 @@ Mandelbrot::updateImageSlice(double zoom, double offsetX, double offsetY, sf::Im
 
 
 void Mandelbrot::updateImage(double zoom, double offsetX, double offsetY, sf::Image & image) const {
-    const int STEP = IMAGE_HEIGHT / std::thread::hardware_concurrency();
+    int const STEP = HEIGHT / std::thread::hardware_concurrency();
     std::vector<std::thread> threads;
-    for (int i = 0; i < IMAGE_HEIGHT; i += STEP) {
+    for (int i = 0; i < HEIGHT; i += STEP) {
         threads.emplace_back(
             &Mandelbrot::updateImageSlice, this,
-            zoom, offsetX, offsetY, std::ref(image), i, std::min(i + STEP, IMAGE_HEIGHT)
+            zoom, offsetX, offsetY, std::ref(image), i, std::min(i + STEP, HEIGHT)
         );
     }
     for (auto & t : threads) {
