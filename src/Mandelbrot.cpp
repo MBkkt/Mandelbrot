@@ -1,6 +1,6 @@
 #include <vector>
 #include <thread>
-
+#include <future>
 #include "Mandelbrot.h"
 
 
@@ -89,14 +89,11 @@ Mandelbrot::updateImageSlice(sf::Image & image, double zoom, double offsetX, dou
 
 void Mandelbrot::updateImage(double zoom, double offsetX, double offsetY, sf::Image & image) const {
     int const STEP = HEIGHT / std::thread::hardware_concurrency();
-    std::vector<std::thread> threads;
+    std::vector<std::future<void>> futures(HEIGHT / STEP + 1);
     for (int i = 0; i < HEIGHT; i += STEP) {
-        threads.emplace_back(
-            &Mandelbrot::updateImageSlice, this,
-            std::ref(image), zoom, offsetX, offsetY, i, std::min(i + STEP, HEIGHT)
+        futures.emplace_back(
+            std::async(&Mandelbrot::updateImageSlice,
+                       this, std::ref(image), zoom, offsetX, offsetY, i, std::min(i + STEP, HEIGHT))
         );
-    }
-    for (auto & t : threads) {
-        t.join();
     }
 }
